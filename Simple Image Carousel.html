@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Image Carousel</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Essential layout adjustments */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        #carousel-container { max-width: 600px; width: 95%; margin: 0 auto; }
+        .image-display { 
+            width: 100%; 
+            height: auto; 
+            object-fit: cover; 
+            aspect-ratio: 4/3; 
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main Carousel Container -->
+    <div id="carousel-container" class="bg-white shadow-xl rounded-xl overflow-hidden">
+        <h1 class="text-2xl font-semibold text-center text-gray-700 p-4">Image Slider</h1>
+
+        <!-- Image Display Area -->
+        <div class="relative">
+            <img id="carousel-image" class="image-display rounded-t-lg" 
+                 alt="Carousel Image" src="">
+            
+            <!-- Index Counter -->
+            <div id="index-counter" class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-full">
+                1 / 4
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between p-4 bg-gray-100 border-t">
+            
+            <button id="prev-btn" onclick="prevImage()" 
+                    class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150">
+                &larr; Previous
+            </button>
+            
+            <button id="next-btn" onclick="nextImage()" 
+                    class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150">
+                Next &rarr;
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Simplified JavaScript Logic -->
+    <script>
+        // Placeholder images
+        const images = [
+            'https://placehold.co/800x600/2563eb/ffffff/png?text=Slide+1',
+            'https://placehold.co/800x600/10b981/ffffff/png?text=Slide+2',
+            'https://placehold.co/800x600/f59e0b/ffffff/png?text=Slide+3',
+            'https://placehold.co/800x600/ef4444/ffffff/png?text=Slide+4'
+        ];
+
+        let currentIndex = 0;
+        const totalImages = images.length;
+
+        // DOM elements
+        const carouselImage = document.getElementById('carousel-image');
+        const indexCounter = document.getElementById('index-counter');
+
+        /**
+         * Updates the image source and the index counter display immediately.
+         */
+        function updateCarousel() {
+            // Update the image source
+            carouselImage.src = images[currentIndex];
+            
+            // Update the text counter (1-based display)
+            indexCounter.textContent = `${currentIndex + 1} / ${totalImages}`;
+        }
+
+        /**
+         * Navigates to the next image using the modulo operator for clean wrapping.
+         */
+        function nextImage() {
+            // (Current Index + 1) % Total Images. If currentIndex is 3 (last index), 
+            // (3 + 1) % 4 = 0 (first index).
+            currentIndex = (currentIndex + 1) % totalImages;
+            updateCarousel();
+        }
+
+        /**
+         * Navigates to the previous image using the modulo operator for clean wrapping.
+         */
+        function prevImage() {
+            // (Current Index - 1 + Total Images) % Total Images. 
+            // This handles negative results correctly in JavaScript.
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            updateCarousel();
+        }
+        
+        // Initialize the carousel on load
+        window.onload = function() {
+            if (totalImages > 0) {
+                updateCarousel();
+            }
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Color Generator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import and transition for smooth color changes */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.4s ease-in-out; /* Smooth background transition */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900" id="body-element">
+
+    <!-- Main Generator Card -->
+    <div class="p-8 bg-white/10 rounded-xl shadow-2xl text-center max-w-xs w-full">
+
+        <h1 class="text-xl font-bold text-white mb-4">
+            HEX Code:
+        </h1>
+
+        <!-- Hex Code Display - Clickable to Copy -->
+        <p id="hex-display" 
+           class="text-4xl font-extrabold text-white mb-6 p-2 bg-black/50 rounded-lg tracking-wider cursor-pointer 
+                  hover:bg-black/70 transition duration-150"
+           title="Click to copy">
+            #1A1A1A
+        </p>
+
+        <!-- Generate Button -->
+        <button id="generate-btn" 
+                class="w-full py-3 bg-indigo-500 text-white font-bold text-lg rounded-lg shadow-md 
+                       hover:bg-indigo-600 transition duration-150">
+            Generate Color
+        </button>
+        
+        <!-- Confirmation message -->
+        <div id="copy-message" class="mt-4 text-green-400 text-sm opacity-0 transition-opacity duration-300">
+            Copied to clipboard!
+        </div>
+    </div>
+
+    <script>
+        const bodyElement = document.getElementById('body-element');
+        const hexDisplay = document.getElementById('hex-display');
+        const generateBtn = document.getElementById('generate-btn');
+        const copyMessage = document.getElementById('copy-message');
+
+        /**
+         * Generates a random 6-digit hexadecimal color code.
+         * @returns {string} The complete hex color code (#RRGGBB).
+         */
+        function generateRandomHexColor() {
+            // Generate a random integer between 0 and 16,777,215 (0xFFFFFF)
+            const randomColor = Math.floor(Math.random() * 16777215);
+            
+            // Convert to hex string and ensure it's 6 digits long with leading zeros
+            let hexColor = randomColor.toString(16).padStart(6, '0').toUpperCase();
+
+            return `#${hexColor}`;
+        }
+
+        /**
+         * Applies the new color to the body background and updates the display.
+         */
+        function applyColor() {
+            const newColor = generateRandomHexColor();
+            
+            // 1. Update the body's background color
+            bodyElement.style.backgroundColor = newColor;
+
+            // 2. Update the hex code display text
+            hexDisplay.textContent = newColor;
+        }
+
+        /**
+         * Copies the current hex code to the clipboard and shows a temporary message.
+         */
+        function copyHexCode() {
+            const hexCode = hexDisplay.textContent;
+            
+            // Use execCommand for broader compatibility in iFrame environments
+            const textarea = document.createElement('textarea');
+            textarea.value = hexCode;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                
+                // Show confirmation message
+                copyMessage.classList.remove('opacity-0');
+                copyMessage.classList.add('opacity-100');
+                
+                // Hide confirmation message after a delay
+                setTimeout(() => {
+                    copyMessage.classList.remove('opacity-100');
+                    copyMessage.classList.add('opacity-0');
+                }, 1500);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Event Listeners
+        generateBtn.addEventListener('click', applyColor);
+        hexDisplay.addEventListener('click', copyHexCode);
+
+        // Generate a random color on initial load
+        window.onload = applyColor; 
+    </script>
+</body>
+</html>
