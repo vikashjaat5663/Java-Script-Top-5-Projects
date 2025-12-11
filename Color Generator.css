@@ -1,0 +1,8 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
+/* Apply font and smooth background transition */
+body {
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.4s ease-in-out;
+}

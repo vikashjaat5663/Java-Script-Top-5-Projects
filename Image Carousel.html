@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Image Carousel</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="Image Carousel.css">
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main Carousel Container -->
+    <div id="carousel-container" class="bg-white shadow-xl rounded-xl overflow-hidden">
+        <h1 class="text-2xl font-semibold text-center text-gray-700 p-4">Image Slider</h1>
+
+        <!-- Image Display Area -->
+        <div class="relative">
+            <img id="carousel-image" class="image-display rounded-t-lg" alt="Carousel Image" src="">
+            
+            <!-- Index Counter -->
+            <div id="index-counter" class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-full">
+                1 / 4
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between p-4 bg-gray-100 border-t">
+            <button id="prev-btn" onclick="prevImage()" 
+                class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150">
+                ← Previous
+            </button>
+            
+            <button id="next-btn" onclick="nextImage()" 
+                class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150">
+                Next →
+            </button>
+        </div>
+    </div>
+
+    <!-- External JS -->
+    <script src="Image Carousel.js"></script>
+
+</body>
+</html>
